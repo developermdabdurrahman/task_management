@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:task_management/ui/controllers/auth_controller.dart';
-import 'package:task_management/ui/screens/main_bottom_nav_screen.dart';
 import 'package:task_management/ui/screens/sign_in_screen.dart';
-import 'package:task_management/ui/widgets/screen_background.dart';
 
-import '../widgets/app_logo.dart';
+import '../controller/auth_controller.dart';
+import '../widgets/task_widgets.dart';
+import 'main_bottom_nav_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,26 +17,26 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    moveToNextScreen();
+    // TODO: implement initState
     super.initState();
+    moveToNextScreen();
   }
 
   Future<void> moveToNextScreen() async {
-    await Future.delayed(
-      const Duration(seconds: 2),
-    );
+    await Future.delayed(const Duration(seconds: 2));
     bool isUserLoggedIn = await AuthController.isUserLoggedIn();
-    if(isUserLoggedIn){
+    if (isUserLoggedIn) {
       Navigator.pushReplacementNamed(context, MainBottomNavScreen.name);
-    }else{
+      print(AuthController.userModel!.firstName);
+    } else {
       Navigator.pushReplacementNamed(context, SignInScreen.name);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: ScreenBackground(
+    return Scaffold(
+      body: BackgroundScreen(
         child: Center(
           child: AppLogo(),
         ),

@@ -1,4 +1,4 @@
-import 'package:task_management/data/models/task_count_model.dart';
+import 'task_count_model.dart';
 
 class TaskCountByStatusModel {
   String? status;
@@ -19,8 +19,8 @@ class TaskCountByStatusModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['status'] = status;
-    if (taskByStatusList != null) {
-      data['data'] = taskByStatusList!.map((v) => v.toJson()).toList();
+    if (this.taskByStatusList != null) {
+      data['data'] = this.taskByStatusList!.map((v) => v.toJson()).toList();
     }
     return data;
   }

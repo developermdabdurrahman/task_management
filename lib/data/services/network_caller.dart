@@ -1,43 +1,44 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
-import 'package:task_management/app.dart';
-import 'package:task_management/ui/controllers/auth_controller.dart';
-import 'package:task_management/ui/screens/sign_in_screen.dart';
+
+
+import '../../app.dart';
+import '../../ui/controller/auth_controller.dart';
+import '../../ui/screens/sign_in_screen.dart';
 
 class NetworkResponse {
   final int statusCode;
-  final bool isSuccess;
   final Map<String, dynamic>? responseData;
+  final bool isSuccess;
   final String errorMessage;
 
   NetworkResponse({
     required this.isSuccess,
     required this.statusCode,
     this.responseData,
-    this.errorMessage = 'Something went wrong',
+    this.errorMessage = 'Something went wrong!',
   });
 }
 
 class NetworkCaller {
-  static Future<NetworkResponse> getRequest(
-      {required String url, Map<String, dynamic>? params}) async {
+  static Future<NetworkResponse> getRequest({required String url}) async {
     try {
       Uri uri = Uri.parse(url);
       debugPrint('URL => $url');
       Response response =
           await get(uri, headers: {'token': AuthController.accessToken ?? ''});
-      debugPrint('Response code => ${response.statusCode}');
+      debugPrint('Response Code => ${response.statusCode}');
       debugPrint('Response Data => ${response.body}');
       if (response.statusCode == 200) {
-        final decodedResponseData = jsonDecode(response.body);
+        final decodedResponse = jsonDecode(response.body);
         return NetworkResponse(
             isSuccess: true,
             statusCode: response.statusCode,
-            responseData: decodedResponseData);
+            responseData: decodedResponse);
       } else if (response.statusCode == 401) {
-        _logout();
+        await _logout();
         return NetworkResponse(
             isSuccess: false, statusCode: response.statusCode);
       } else {
@@ -46,7 +47,10 @@ class NetworkCaller {
       }
     } catch (e) {
       return NetworkResponse(
-          isSuccess: false, statusCode: -1, errorMessage: e.toString());
+        isSuccess: false,
+        statusCode: -1,
+        errorMessage: e.toString(),
+      );
     }
   }
 
@@ -56,31 +60,34 @@ class NetworkCaller {
       Uri uri = Uri.parse(url);
       debugPrint('URL => $url');
       debugPrint('BODY => $body');
-      Response response = await post(uri, body: jsonEncode(body), headers: {
-        'Content-Type': 'application/json',
-        'token': AuthController.accessToken ?? ''
-      });
-      debugPrint('Response code => ${response.statusCode}');
+      Response response = await post(uri,
+          headers: {
+            'content-type': 'application/json',
+            'token': AuthController.accessToken ?? ''
+          },
+          body: jsonEncode(body));
+      debugPrint('Response Code => ${response.statusCode}');
       debugPrint('Response Data => ${response.body}');
-
       if (response.statusCode == 200) {
-        final decodedResponseData = jsonDecode(response.body);
+        final decodedResponse = jsonDecode(response.body);
         return NetworkResponse(
             isSuccess: true,
             statusCode: response.statusCode,
-            responseData: decodedResponseData);
+            responseData: decodedResponse);
       } else if (response.statusCode == 401) {
         await _logout();
         return NetworkResponse(
             isSuccess: false, statusCode: response.statusCode);
       } else {
-        debugPrint('Error response: ${response.body}');
         return NetworkResponse(
             isSuccess: false, statusCode: response.statusCode);
       }
     } catch (e) {
       return NetworkResponse(
-          isSuccess: false, statusCode: -1, errorMessage: e.toString());
+        isSuccess: false,
+        statusCode: -1,
+        errorMessage: e.toString(),
+      );
     }
   }
 
@@ -89,6 +96,6 @@ class NetworkCaller {
     Navigator.pushNamedAndRemoveUntil(
         TaskManagerApp.navigatorKey.currentContext!,
         SignInScreen.name,
-        (predicate) => false);
+        (_) => false);
   }
 }

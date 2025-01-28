@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:task_management/ui/screens/canceled_list_screen.dart';
-import 'package:task_management/ui/screens/new_task_list_screen.dart';
 import 'package:task_management/ui/screens/progress_task_list_screen.dart';
 
-import 'completed_task_screen.dart';
+import '../utils/app_colors.dart';
+import 'canceled_task_list_screen.dart';
+import 'completed_task_list_screen.dart';
+import 'new_task_list_screen.dart';
 
 class MainBottomNavScreen extends StatefulWidget {
   const MainBottomNavScreen({super.key});
 
-  static const String name = '/home';
+  static String name = '/home';
 
   @override
   State<MainBottomNavScreen> createState() => _MainBottomNavScreenState();
@@ -16,36 +17,37 @@ class MainBottomNavScreen extends StatefulWidget {
 
 class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
   int _selectedIndex = 0;
+
   final List<Widget> _screens = const [
     NewTaskListScreen(),
+    CompletedTaskListScreen(),
+    CanceledTaskListScreen(),
     ProgressTaskListScreen(),
-    CompletedTaskScreen(),
-    CanceledListScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: ()async{
-
+      body: _screens[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        currentIndex: _selectedIndex,
+        selectedItemColor: AppColors.themColor,
+        onTap: (index) {
+          _selectedIndex = index;
+          setState(() {});
         },
-        child: _screens[_selectedIndex],
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.new_label), label: 'New Task'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.sticky_note_2), label: 'Completed'),
+          BottomNavigationBarItem(icon: Icon(Icons.cancel), label: 'Canceled'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.incomplete_circle), label: 'Progress'),
+        ],
       ),
-      bottomNavigationBar: NavigationBar(
-          selectedIndex: _selectedIndex,
-          onDestinationSelected: ((int index) {
-            _selectedIndex = index;
-            setState(() {});
-          }),
-          destinations: const [
-            NavigationDestination(
-                icon: Icon(Icons.new_label_outlined), label: 'New Task'),
-            NavigationDestination(icon: Icon(Icons.refresh), label: 'Progress'),
-            NavigationDestination(icon: Icon(Icons.done), label: 'Completed'),
-            NavigationDestination(
-                icon: Icon(Icons.cancel_outlined), label: 'Cancelled'),
-          ]),
     );
   }
 }

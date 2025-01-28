@@ -9,22 +9,22 @@ import '../widgets/snack_bar_massage.dart';
 import '../widgets/task_item_widget.dart';
 import '../widgets/tm_appBar.dart';
 
-class ProgressTaskListScreen extends StatefulWidget {
-  const ProgressTaskListScreen({super.key});
+class CanceledTaskListScreen extends StatefulWidget {
+  const CanceledTaskListScreen({super.key});
 
   @override
-  State<ProgressTaskListScreen> createState() => _ProgressTaskListScreenState();
+  State<CanceledTaskListScreen> createState() => _CanceledTaskListScreenState();
 }
 
-class _ProgressTaskListScreenState extends State<ProgressTaskListScreen> {
-  bool _getProgressTaskListInProgress = false;
-  TaskListByStatusModel? progressTaskListModel;
+class _CanceledTaskListScreenState extends State<CanceledTaskListScreen> {
+  bool _getCanceledTaskListInProgress = false;
+  TaskListByStatusModel? canceledTaskListModel;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getProgressTaskList();
+    _getCanceledTaskList();
   }
 
   @override
@@ -32,16 +32,16 @@ class _ProgressTaskListScreenState extends State<ProgressTaskListScreen> {
     return Scaffold(
       appBar: TMAppBar(),
       body: BackgroundScreen(
-        child: _buildProgressTaskListview(),
+        child: _buildCanceledTaskListview(),
       ),
     );
   }
 
-  _buildProgressTaskListview() {
+  Widget _buildCanceledTaskListview() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Visibility(
-          visible: _getProgressTaskListInProgress == false,
+          visible: _getCanceledTaskListInProgress == false,
           replacement: const CenteredCircularProgressIndicator(),
           child: _buildTaskListView()),
     );
@@ -49,7 +49,7 @@ class _ProgressTaskListScreenState extends State<ProgressTaskListScreen> {
 
   Widget _buildTaskListView() {
     return ListView.builder(
-      itemCount: progressTaskListModel?.taskList?.length ?? 0,
+      itemCount: canceledTaskListModel?.taskList?.length ?? 0,
       padding: EdgeInsets.symmetric(vertical: 10),
       itemBuilder: (context, index) {
         return TaskItemWidget(
@@ -59,36 +59,36 @@ class _ProgressTaskListScreenState extends State<ProgressTaskListScreen> {
           ontabDetele: () {
             _deleteTaskItem(index);
           },
-          taskModel: progressTaskListModel!.taskList![index],
+          taskModel: canceledTaskListModel!.taskList![index],
         );
       },
     );
   }
 
-  Future<void> _getProgressTaskList() async {
-    _getProgressTaskListInProgress = true;
+  Future<void> _getCanceledTaskList() async {
+    _getCanceledTaskListInProgress = true;
     setState(() {});
-    final NetworkResponse response = await NetworkCaller.getRequest(
-        url: Urls.taskListByStatusUrl('Progress'));
+    final NetworkResponse response =
+        await NetworkCaller.getRequest(url: Urls.taskListByStatusUrl('Cancel'));
     if (response.isSuccess) {
-      progressTaskListModel =
+      canceledTaskListModel =
           TaskListByStatusModel.fromJson(response.responseData!);
     } else {
       showSnackBarMessage(context, response.errorMessage, false);
     }
-    _getProgressTaskListInProgress = false;
+    _getCanceledTaskListInProgress = false;
     setState(() {});
   }
 
   Future<void> _deleteTaskItem(int index) async {
-    final String? _taskId = progressTaskListModel!.taskList![index].sId;
+    final String? _taskId = canceledTaskListModel!.taskList![index].sId;
     showSnackBarMessage(context, "Deleting....", true);
 
     NetworkResponse response =
         await NetworkCaller.getRequest(url: Urls.deleteTask(_taskId!));
     if (response.isSuccess) {
       showSnackBarMessage(context, "Task Deleted", true);
-      progressTaskListModel?.taskList?.removeAt(index);
+      canceledTaskListModel?.taskList?.removeAt(index);
       setState(() {});
     } else {
       showSnackBarMessage(context, response.errorMessage, false);
@@ -96,17 +96,17 @@ class _ProgressTaskListScreenState extends State<ProgressTaskListScreen> {
   }
 
   Future<void> _upgradeStatus(int index, String status) async {
-    if (status == "Progress") {
-      showSnackBarMessage(context, "You are in 'Progress status'.", false);
+    if (status == "Cancel") {
+      showSnackBarMessage(context, "You are in 'Cancel status'.", false);
     } else {
       showSnackBarMessage(context, "status updating.....", true);
-      final String? _taskId = progressTaskListModel!.taskList![index].sId;
+      final String? _taskId = canceledTaskListModel!.taskList![index].sId;
 
       NetworkResponse response = await NetworkCaller.getRequest(
           url: Urls.UpgradeTask(_taskId!, status));
       if (response.isSuccess) {
         showSnackBarMessage(context, "Task Update", true);
-        progressTaskListModel?.taskList?.removeAt(index);
+        canceledTaskListModel?.taskList?.removeAt(index);
         setState(() {});
       } else {
         showSnackBarMessage(context, response.errorMessage, false);

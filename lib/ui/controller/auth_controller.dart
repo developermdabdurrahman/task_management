@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:task_management/data/models/user_model.dart';
+
+import '../../data/models/user_model.dart';
 
 class AuthController {
   static String? accessToken;
   static UserModel? userModel;
 
-  static const String _accessTokenKey= 'access-token';
+  static const String _accessTokenKey = 'access-token';
   static const String _userDataKey = 'user-data';
 
   static Future<void> saveUserData(String token, UserModel model) async {
@@ -26,16 +27,23 @@ class AuthController {
     userModel = UserModel.fromJson(jsonDecode(userData!));
   }
 
+  static Future<void> updateUserData(UserModel model) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setString(_userDataKey, jsonEncode(model.toJson()));
+    userModel = model;
+  }
+
   static Future<bool> isUserLoggedIn() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? token = sharedPreferences.getString(_accessTokenKey);
-    if (token != null ) {
+    if (token != null) {
       await getUserData();
       return true;
     }
     return false;
   }
-  static Future<void> clearUserData() async{
+
+  static Future<void> clearUserData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.clear();
   }

@@ -1,15 +1,24 @@
-class Urls{
-  static const String _baseUrls = 'https://task.teamrabbil.com/api/v1';
-  static const String registrationUrl = '$_baseUrls/registration';
-  static const String loginUrl = '$_baseUrls/login';
-  static const String createTaskUrl = '$_baseUrls/createTask';
-  static const String taskCountByStatusUrl = '$_baseUrls/taskStatusCount';
-  static  String taskListByStatusUrl(String status) => '$_baseUrls/listTaskByStatus/$status';
-  static const String updateProfileUrl = '$_baseUrls/profileUpdate';
-  static  String recoveryVerifyEmailUrl(String email) => '$_baseUrls/RecoverVerifyEmail/$email';
-  static  String otpVerificationUrl(String email, String otp) => '$_baseUrls/RecoverVerifyOTP/$email/$otp';
-  static const String recoverPasswordUrl = '$_baseUrls/RecoverResetPass';
-  static  String deleteTaskUrl(String id) => '$_baseUrls/deleteTask/$id';
+class Urls {
+  static const String _baseUrl = 'https://task.teamrabbil.com/api/v1';
 
+  static const String registrationUrl = '$_baseUrl/registration';
+  static const String loginUrl = '$_baseUrl/login';
+  static const String createTaskUrl = '$_baseUrl/createTask';
+  static const String taskCountByStatusUrl = '$_baseUrl/taskStatusCount';
+  static const String recoverResetPass = '$_baseUrl/RecoverResetPass';
 
+  static String gmailVerify(String gmail) =>
+      '$_baseUrl/RecoverVerifyEmail/$gmail';
+
+  static String otpVerify(String gmail, String otp) =>
+      '$_baseUrl/RecoverVerifyOTP/$gmail/$otp';
+
+  static String taskListByStatusUrl(String status) =>
+      '$_baseUrl/listTaskByStatus/$status';
+
+  static String deleteTask(String id) => '$_baseUrl/deleteTask/$id';
+  static String UpgradeTask(String sid, String status) =>
+      '$_baseUrl/updateTaskStatus/$sid/$status';
+
+  static const String updateProfile = '$_baseUrl/profileUpdate';
 }

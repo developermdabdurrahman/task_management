@@ -1,5 +1,4 @@
-// this is using for converting json data to dart for jsonDecoded to get data
-class UserModel{
+class UserModel {
   String? email;
   String? firstName;
   String? lastName;
@@ -10,7 +9,7 @@ class UserModel{
     return '$firstName $lastName';
   }
 
-  UserModel.fromJson(Map<String, dynamic> json){
+  UserModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
     firstName = json['firstName'];
     lastName = json['lastName'];
@@ -18,13 +17,13 @@ class UserModel{
     photo = json['photo'];
   }
 
-  Map<String, dynamic> toJson(){
-    return{
-      'firstName' : firstName,
-      'lastName' : lastName,
-      'email' : email,
-      'mobile' : mobile,
-      'photo' : photo,
+  Map<String, dynamic> toJson() {
+    return {
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
+      'mobile': mobile,
+      'photo': photo,
     };
   }
 }
