@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:task_management/ui/screens/sign_in_screen.dart';
-
 import '../../data/services/network_caller.dart';
 import '../../data/utils/urls.dart';
 import '../utils/app_colors.dart';

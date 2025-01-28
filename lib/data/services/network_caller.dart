@@ -1,9 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
-
-
 import '../../app.dart';
 import '../../ui/controller/auth_controller.dart';
 import '../../ui/screens/sign_in_screen.dart';

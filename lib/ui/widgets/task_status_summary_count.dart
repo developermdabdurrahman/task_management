@@ -26,11 +26,11 @@ class TaskStatusSummaryCount extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '${count ?? '0'}',
+              count,
               style: textThem.titleLarge,
             ),
             Text(
-              '${title ?? "Title"}',
+              title,
               style: textThem.titleSmall,
             ),
           ],

@@ -8,11 +8,10 @@ import 'package:task_management/ui/screens/sign_in_screen.dart';
 import 'package:task_management/ui/screens/sign_up_screens.dart';
 import 'package:task_management/ui/screens/splash_screen.dart';
 import 'package:task_management/ui/screens/update_profile_screen.dart';
-
 import 'ui/utils/app_colors.dart';
 
-
 class TaskManagerApp extends StatelessWidget {
+
   const TaskManagerApp({super.key});
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -20,9 +19,13 @@ class TaskManagerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
       debugShowCheckedModeBanner: false,
+
       theme: ThemeData(
+
         colorSchemeSeed: AppColors.themColor,
+
         textTheme: TextTheme(
           headlineMedium: TextStyle(
             fontSize: 28,
@@ -47,6 +50,7 @@ class TaskManagerApp extends StatelessWidget {
             color: Color(0xff2e374f),
           ),
         ),
+
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.themColor,
@@ -59,6 +63,7 @@ class TaskManagerApp extends StatelessWidget {
             ),
           ),
         ),
+
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: Colors.white,
@@ -81,8 +86,11 @@ class TaskManagerApp extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
         ),
+
       ),
+
       initialRoute: '/',
+
       onGenerateRoute: (settings) {
         late Widget widget;
         if (settings.name == SplashScreen.name) {
@@ -114,6 +122,7 @@ class TaskManagerApp extends StatelessWidget {
           builder: (context) => widget,
         );
       },
+
     );
   }
 }

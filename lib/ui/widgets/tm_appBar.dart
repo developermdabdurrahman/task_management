@@ -1,14 +1,12 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-
 import '../controller/auth_controller.dart';
 import '../screens/sign_in_screen.dart';
 import '../screens/update_profile_screen.dart';
 import '../utils/app_colors.dart';
 
 class TMAppBar extends StatelessWidget implements PreferredSizeWidget {
-  TMAppBar({
+  const TMAppBar({
     super.key,
     this.fromUpdateProfile = false,
   });

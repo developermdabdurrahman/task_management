@@ -181,7 +181,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       "password": _passwordTEController.text,
       "photo": ""
     };
-    print(requestBody);
 
     final NetworkResponse response = await NetworkCaller.postRequest(
         url: Urls.registrationUrl, body: requestBody);

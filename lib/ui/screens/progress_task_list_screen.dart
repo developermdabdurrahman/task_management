@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../data/models/task_list_by_status_model.dart';
 import '../../data/services/network_caller.dart';
 import '../../data/utils/urls.dart';
