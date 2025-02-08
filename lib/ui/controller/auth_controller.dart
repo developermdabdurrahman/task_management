@@ -1,10 +1,18 @@
 import 'dart:convert';
+
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+
 import '../../data/models/user_model.dart';
 
-class AuthController {
+class AuthController extends GetxController {
   static String? accessToken;
   static UserModel? userModel;
+
+  String? get profileImage => userModel?.photo;
+  String? get fullName => userModel?.fullName;
+  String? get gmail => userModel?.email;
 
   static const String _accessTokenKey = 'access-token';
   static const String _userDataKey = 'user-data';
@@ -25,10 +33,11 @@ class AuthController {
     userModel = UserModel.fromJson(jsonDecode(userData!));
   }
 
-  static Future<void> updateUserData(UserModel model) async {
+  Future<void> updateUserData(UserModel model) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setString(_userDataKey, jsonEncode(model.toJson()));
     userModel = model;
+    update();
   }
 
   static Future<bool> isUserLoggedIn() async {

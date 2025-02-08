@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_management/ui/screens/add_new_task_screen.dart';
 import 'package:task_management/ui/screens/forgor_password_email_verification.dart';
 import 'package:task_management/ui/screens/forgot_password_otp_verification.dart';
@@ -8,24 +9,24 @@ import 'package:task_management/ui/screens/sign_in_screen.dart';
 import 'package:task_management/ui/screens/sign_up_screens.dart';
 import 'package:task_management/ui/screens/splash_screen.dart';
 import 'package:task_management/ui/screens/update_profile_screen.dart';
-import 'ui/utils/app_colors.dart';
+import 'package:task_management/ui/utils/app_colors.dart';
+
+import 'controll_binder.dart';
+
 
 class TaskManagerApp extends StatelessWidget {
-
   const TaskManagerApp({super.key});
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-
+    return GetMaterialApp(
+      key: navigatorKey,
       debugShowCheckedModeBanner: false,
-
+      initialBinding: ControllBinder(),
       theme: ThemeData(
-
         colorSchemeSeed: AppColors.themColor,
-
         textTheme: TextTheme(
           headlineMedium: TextStyle(
             fontSize: 28,
@@ -50,7 +51,6 @@ class TaskManagerApp extends StatelessWidget {
             color: Color(0xff2e374f),
           ),
         ),
-
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.themColor,
@@ -63,7 +63,6 @@ class TaskManagerApp extends StatelessWidget {
             ),
           ),
         ),
-
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: Colors.white,
@@ -86,11 +85,8 @@ class TaskManagerApp extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
         ),
-
       ),
-
       initialRoute: '/',
-
       onGenerateRoute: (settings) {
         late Widget widget;
         if (settings.name == SplashScreen.name) {
@@ -122,7 +118,6 @@ class TaskManagerApp extends StatelessWidget {
           builder: (context) => widget,
         );
       },
-
     );
   }
 }
