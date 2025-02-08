@@ -1,7 +1,9 @@
 import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:get/route_manager.dart';
 import 'package:http/http.dart';
-import '../../app.dart';
+
 import '../../ui/controller/auth_controller.dart';
 import '../../ui/screens/sign_in_screen.dart';
 
@@ -20,6 +22,8 @@ class NetworkResponse {
 }
 
 class NetworkCaller {
+  static bool isSignInScreen = false;
+
   static Future<NetworkResponse> getRequest({required String url}) async {
     try {
       Uri uri = Uri.parse(url);
@@ -72,7 +76,7 @@ class NetworkCaller {
             statusCode: response.statusCode,
             responseData: decodedResponse);
       } else if (response.statusCode == 401) {
-        await _logout();
+        if (isSignInScreen == false) await _logout();
         return NetworkResponse(
             isSuccess: false, statusCode: response.statusCode);
       } else {
@@ -90,9 +94,6 @@ class NetworkCaller {
 
   static Future<void> _logout() async {
     await AuthController.clearUserData();
-    Navigator.pushNamedAndRemoveUntil(
-        TaskManagerApp.navigatorKey.currentContext!,
-        SignInScreen.name,
-        (_) => false);
+    Get.offAndToNamed(SignInScreen.name);
   }
 }

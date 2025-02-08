@@ -1,6 +1,9 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+
 import '../../data/models/user_model.dart';
 import '../../data/services/network_caller.dart';
 import '../../data/utils/urls.dart';
@@ -208,7 +211,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       if (requestBody['photo'] == null) {
         requestBody['photo'] = AuthController.userModel?.photo;
       }
-      AuthController.updateUserData(UserModel.fromJson(requestBody));
+      Get.find<AuthController>()
+          .updateUserData(UserModel.fromJson(requestBody));
     } else {
       showSnackBarMessage(context, response.errorMessage, false);
     }

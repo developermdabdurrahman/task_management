@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:task_management/ui/utils/app_colors.dart';
+
+
 import '../../data/models/task_model.dart';
-import '../utils/app_colors.dart';
 
 class TaskItemWidget extends StatelessWidget {
   final TaskModel taskModel;
@@ -166,4 +168,3 @@ class TaskItemWidget extends StatelessWidget {
     }
   }
 }
-
